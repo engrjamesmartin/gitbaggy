@@ -1,5 +1,6 @@
 import tweepy
 import datetime
+from datetime import timedelta
 
 
 #Auth Keys
@@ -14,17 +15,33 @@ auth.set_access_token(access_token,access_token_secret)
 
 api = tweepy.API(auth)
 
-public_tweets = api.user_timeline('@bagholderquotes',count=100)
-
-
-for tweet in public_tweets:
-    print(tweet.created_at.isoformat() + ", " + tweet.text)
-
-
 # function to work one guys twitter
+def get_user_tweets(username,window,baggy):
+    public_tweets = api.user_timeline(id=username,count=100)
+    oldest = public_tweets[-1].id
 
+    resultset = []
+
+    for tweet in public_tweets:
+        resultset.append([tweet.id, tweet.text, tweet.created_at, "baggy"])
+
+    while((datetime.datetime.now() - timedelta(days=window)) < public_tweets[-1].created_at):
+        print("getting tweets before " + str(oldest))
+        public_tweets = api.user_timeline(id=username,count=100,max_id=oldest)
+        oldest = public_tweets[-1].id
+
+        for tweet in public_tweets:
+            resultset.append([tweet.id,tweet.text,tweet.created_at,baggy])
+
+
+    print("Total Tweets: " + str(len(resultset)))
+
+    return resultset
+    # for tweet in public_tweets:
+    #     print(tweet.created_at.isoformat() + ", " + tweet.text)
 
 
 # function to do one ticker twitter
 
-# function to loop through tweets to get more than one request
+
+get_user_tweets('@bagholderquotes',20,'baggy')
