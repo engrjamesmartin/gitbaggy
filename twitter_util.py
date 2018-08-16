@@ -37,11 +37,6 @@ def get_user_tweets(username,window,baggy):
     print("Total Tweets: " + str(len(resultset)))
 
     return resultset
-    # for tweet in public_tweets:
-    #     print(tweet.created_at.isoformat() + ", " + tweet.text)
 
 
 # function to do one ticker twitter
-
-
-get_user_tweets('@bagholderquotes',20,'baggy')
