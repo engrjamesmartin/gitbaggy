@@ -10,11 +10,13 @@ import tensor_util as tensor
 bagholder_user = '@bagholderquotes'
 non_bagholder_ticker = ['$AMZN']
 
-training_data = twitter.get_user_tweets(bagholder_user,'baggy',days=20)
+#get bagholders 1 = baggy
+training_data = twitter.get_user_tweets(bagholder_user,1,days=20)
 
 
+#get non bagholders 0 = not baggy
 for ticker in non_bagholder_ticker:
-    training_data += twitter.get_ticker_tweets(ticker,'not baggy',hours=6)
+    training_data += twitter.get_ticker_tweets(ticker,0,hours=6)
 
 tensor.train_test_model(training_data)
 

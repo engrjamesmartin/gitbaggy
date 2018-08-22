@@ -1,6 +1,8 @@
 import tensorflow as tf
+import tensorflow_hub as hub
 import pandas as pd
 import numpy as np
+
 
 
 
@@ -49,7 +51,26 @@ def train_test_model(training_data):
     # prediction on test
     predict_test_input_fn = tf.estimator.inputs.pandas_input_fn(test_df, test_df["is_baggy"], shuffle=False)
 
+    embedded_text_feature_column = hub.text_embedding_column(
+        key="tweet",
+        module_spec="https://tfhub.dev/google/nnlm-en-dim128/1")
 
+    estimator = tf.estimator.DNNClassifier(
+        hidden_units=[500,100],
+        feature_columns=[embedded_text_feature_column],
+        n_classes=2,
+        optimizer=tf.train.AdagradOptimizer(learning_rate=0.03)
+    )
 
+    print("got past estimator")
 
+    estimator.train(input_fn=train_input_fn, steps=100)
+
+    print("got past train")
+
+    train_eval_result = estimator.evaluate(input_fn=predict_train_input_fn)
+    test_eval_result = estimator.evaluate(input_fn=predict_test_input_fn)
+
+    print("Training set accuracy: {accuracy}".format(**train_eval_result))
+    print("Test set accuracy: {accuracy}".format(**test_eval_result))
 
