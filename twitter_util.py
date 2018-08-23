@@ -51,7 +51,7 @@ def get_ticker_tweets(ticker,baggy,days=0,hours=0):
     resultset = []
 
     for tweet in public_tweets:
-        resultset.append([tweet.id, tweet.text, tweet.created_at, "baggy"])
+        resultset.append([tweet.id, tweet.text, tweet.created_at, baggy])
 
     while((datetime.datetime.now() - timedelta(days=days,hours=hours)) < public_tweets[-1].created_at):
         print("getting tweets before " + str(oldest))

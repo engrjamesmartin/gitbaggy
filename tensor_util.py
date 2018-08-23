@@ -16,22 +16,27 @@ def split_list(mylist):
             list_a.append(item)
         else:
             list_b.append(item)
+        counter+=1
 
     return list_a, list_b
 
 def make_dataframe(mytweets):
+
     tweets = []
     is_baggy = []
     index = []
 
+
     for items in mytweets:
         index.append(items[0])
         tweets.append(items[1])
-        is_baggy.append(items[3])
+        is_baggy.append(int(items[3]))
 
-    d = {'tweet': tweets, 'is_baggy': is_baggy}
+    d = dict(tweet=tweets, is_baggy=is_baggy)
 
     df = pd.DataFrame(data=d, index=index)
+
+    print(df.dtypes)
 
     return df
 
@@ -41,6 +46,7 @@ def train_test_model(training_data):
 
     train_df = make_dataframe(train_df)
     test_df = make_dataframe(test_df)
+
 
     # do training input
     train_input_fn = tf.estimator.inputs.pandas_input_fn(train_df, train_df["is_baggy"], num_epochs=None, shuffle=True)
@@ -63,6 +69,7 @@ def train_test_model(training_data):
     )
 
     print("got past estimator")
+    input("stop here")
 
     estimator.train(input_fn=train_input_fn, steps=100)
 
