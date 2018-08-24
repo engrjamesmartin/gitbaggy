@@ -2,6 +2,7 @@ import tweepy
 import datetime
 import tokens
 from datetime import timedelta
+import tensor_util as tu
 
 
 #Auth Keys
@@ -48,6 +49,11 @@ def get_ticker_tweets(ticker,baggy,days=0,hours=0):
     public_tweets = api.search(q=ticker,count=100)
     oldest = public_tweets[-1].id
 
+    #amazon has a lot of tweets, making a special case
+    if(ticker=="$AMZN"):
+        days=0
+        hours=12
+
     resultset = []
 
     for tweet in public_tweets:
@@ -65,3 +71,16 @@ def get_ticker_tweets(ticker,baggy,days=0,hours=0):
     print("Total Tweets: " + str(len(resultset)))
 
     return resultset
+
+
+#this function will open a stream with twitter on a username
+def get_stream(username):
+    class MyStreamListener(tweepy.StreamListener):
+        def on_status(self, status):
+            print(tu.predict_tweet(status.text))
+            #print(status.text)
+
+    myStreamListener = MyStreamListener()
+    myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener)
+
+    myStream.filter(track=[username])
