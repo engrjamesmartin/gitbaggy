@@ -81,6 +81,8 @@ def train_test_model(training_data):
     print("Training set accuracy: {accuracy}".format(**train_eval_result))
     print("Test set accuracy: {accuracy}".format(**test_eval_result))
 
+    tf.Print()
+
     saver=tf.train.Saver()
 
     with tf.Session() as sess:

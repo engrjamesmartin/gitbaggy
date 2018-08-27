@@ -9,7 +9,7 @@ import numpy as np
 
 #pass to functions in my twitter lib
 bagholder_user = '@bagholderquotes'
-non_bagholder_ticker = ['$AMZN','$NVDA','$ISRG','$COP','$AAPL']
+non_bagholder_ticker = ['$AMZN','$NVDA','$ISRG','$COP']
 
 
 print("Welcome to gitbaggy")
@@ -32,7 +32,7 @@ if(menu=='1'):
         for word in item[1].split():
             if ((word.startswith("$"))&(len(word)>1)):
                 if(word[1].isnumeric()!=True):
-                    tickers.append(word.strip("…!,.?"))
+                    tickers.append(word.strip("!,.?"))
 
     ticker_count=np.unique(tickers, return_counts=True)
 

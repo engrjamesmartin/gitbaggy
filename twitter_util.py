@@ -2,7 +2,7 @@ import tweepy
 import datetime
 import tokens
 from datetime import timedelta
-import tensor_util as tu
+from tensor_util import predict_tweet
 
 
 #Auth Keys
@@ -77,7 +77,7 @@ def get_ticker_tweets(ticker,baggy,days=0,hours=0):
 def get_stream(username):
     class MyStreamListener(tweepy.StreamListener):
         def on_status(self, status):
-            print(tu.predict_tweet(status.text))
+            print(predict_tweet(status.text))
             #print(status.text)
 
     myStreamListener = MyStreamListener()
