@@ -81,9 +81,10 @@ def train_test_model(training_data):
     print("Training set accuracy: {accuracy}".format(**train_eval_result))
     print("Test set accuracy: {accuracy}".format(**test_eval_result))
 
-    tf.Print()
+    print(estimator.get_variable_names())
 
-    saver=tf.train.Saver()
+    saver = tf.train.Saver()
+
 
     with tf.Session() as sess:
         save_path = saver.save(sess, export_dir + "/model.ckpt")
@@ -91,6 +92,6 @@ def train_test_model(training_data):
 
 def predict_tweet(tweet):
 
-
+    tf.train.load_checkpoint(export_dir)
 
     return ("Baggy " + tweet)

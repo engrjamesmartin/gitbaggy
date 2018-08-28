@@ -21,6 +21,7 @@ print("4) Exit")
 menu=input("Which analytics would you like to run?: ")
 
 
+
 #get non bagholders 0 = not baggy
 if(menu=='1'):
     print("Work in progress")
