@@ -20,7 +20,7 @@ print("3) Monitor bagholders in the wild")
 print("4) Exit")
 menu=input("Which analytics would you like to run?: ")
 
-
+menu=str(menu)
 
 #get non bagholders 0 = not baggy
 if(menu=='1'):
