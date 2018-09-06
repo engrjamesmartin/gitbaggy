@@ -2,7 +2,7 @@ import tweepy
 import datetime
 import tokens
 from datetime import timedelta
-
+from tensor_util import use_model
 
 
 #Auth Keys
@@ -77,7 +77,10 @@ def get_ticker_tweets(ticker,baggy,days=0,hours=0):
 def get_stream(username, estimator):
     class MyStreamListener(tweepy.StreamListener):
         def on_status(self, status):
-            print(status.text)
+            if (str(use_model(estimator=estimator,tweet=status.text)) =="0"):
+                print("Not Baggy : " + status.text)
+            else:
+                print("Baggy     : " + status.text)
             #print(status.text)
 
     myStreamListener = MyStreamListener()

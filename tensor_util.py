@@ -1,9 +1,6 @@
 import tensorflow as tf
 import tensorflow_hub as hub
 import pandas as pd
-from tensorflow.contrib import predictor
-
-from gitbaggy import estimator
 
 export_dir = "/tmp/tmpgitbaggymodel"
 
@@ -75,14 +72,14 @@ def train_test_model(training_data):
         hidden_units=[500, 100],
         feature_columns=[embedded_text_feature_column],
         n_classes=2,
-        optimizer=tf.train.AdagradOptimizer(learning_rate=0.03),
+        optimizer=tf.train.AdagradOptimizer(learning_rate=0.003),
         model_dir=export_dir
     )
 
     print("got past estimator")
     #input("Do you wish to build: [Y/n] ")
 
-    estimator.train(input_fn=train_input_fn, steps=100)
+    estimator.train(input_fn=train_input_fn, steps=1000)
 
     print("got past train")
 

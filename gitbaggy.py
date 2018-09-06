@@ -41,11 +41,11 @@ if(menu=='1'):
 
 if(menu=='2'):
     # get bagholders 1 = baggy
-    training_data = twitter.get_user_tweets(bagholder_user, 1, days=10)
+    training_data = twitter.get_user_tweets(bagholder_user, 1, days=30)
 
     # get the non bagholders 0 = not baggy
     for ticker in non_bagholder_ticker:
-        training_data += twitter.get_ticker_tweets(ticker,0,hours=12)
+        training_data += twitter.get_ticker_tweets(ticker,0,days=1)
 
     print("Total Tweets: " + str(len(training_data)))
 
