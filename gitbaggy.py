@@ -49,7 +49,9 @@ if(menu=='2'):
 
     print("Total Tweets: " + str(len(training_data)))
 
-    tensor.train_test_model(training_data)
+    estimator = tensor.train_test_model(training_data)
+    print("Work in progress")
+    twitter.get_stream("$TSLA", estimator)
 
 if(menu=='3'):
     print("Work in progress")

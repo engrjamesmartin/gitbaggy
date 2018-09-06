@@ -2,7 +2,7 @@ import tweepy
 import datetime
 import tokens
 from datetime import timedelta
-from tensor_util import predict_tweet
+
 
 
 #Auth Keys
@@ -74,10 +74,10 @@ def get_ticker_tweets(ticker,baggy,days=0,hours=0):
 
 
 #this function will open a stream with twitter on a username
-def get_stream(username):
+def get_stream(username, estimator):
     class MyStreamListener(tweepy.StreamListener):
         def on_status(self, status):
-            print(predict_tweet(status.text))
+            print(status.text)
             #print(status.text)
 
     myStreamListener = MyStreamListener()

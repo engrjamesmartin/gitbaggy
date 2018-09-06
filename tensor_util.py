@@ -3,6 +3,8 @@ import tensorflow_hub as hub
 import pandas as pd
 from tensorflow.contrib import predictor
 
+from gitbaggy import estimator
+
 export_dir = "/tmp/tmpgitbaggymodel"
 
 
@@ -39,6 +41,15 @@ def make_dataframe(mytweets):
 
     return df
 
+def use_model(estimator, tweet):
+    input_fn = make_dataframe(
+        [["1234", tweet, "", 0]])
+
+    predict_test_fn = tf.estimator.inputs.pandas_input_fn(input_fn, input_fn["is_baggy"], shuffle=False)
+    prediction = estimator.predict(input_fn=predict_test_fn)
+
+    for items in prediction:
+        return(items["class_ids"][0])
 
 # actual training of the model
 def train_test_model(training_data):
@@ -69,7 +80,7 @@ def train_test_model(training_data):
     )
 
     print("got past estimator")
-    input("Do you wish to build: [Y/n] ")
+    #input("Do you wish to build: [Y/n] ")
 
     estimator.train(input_fn=train_input_fn, steps=100)
 
@@ -81,17 +92,16 @@ def train_test_model(training_data):
     print("Training set accuracy: {accuracy}".format(**train_eval_result))
     print("Test set accuracy: {accuracy}".format(**test_eval_result))
 
+    return estimator
+
+"""
     print(estimator.get_variable_names())
 
-    saver = tf.train.Saver()
+    input_fn=make_dataframe([["1234","Nothing like watching Jack Dorsey to realize Elon isn't that crazy and weird. $TSLA","",0]])
 
+    predict_test_fn = tf.estimator.inputs.pandas_input_fn(input_fn, input_fn["is_baggy"], shuffle=False)
+    prediction = estimator.predict(input_fn=predict_test_fn)
 
-    with tf.Session() as sess:
-        save_path = saver.save(sess, export_dir + "/model.ckpt")
-        print("Model saved in: " + save_path)
-
-def predict_tweet(tweet):
-
-    tf.train.load_checkpoint(export_dir)
-
-    return ("Baggy " + tweet)
+    for items in prediction:
+        print(items["class_ids"][0])
+"""
